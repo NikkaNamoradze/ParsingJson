@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.parsingdataandretrofit.R
 import com.example.parsingdataandretrofit.databinding.ParsingFragmentBinding
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ParsingFragment : Fragment() {
@@ -29,9 +30,15 @@ class ParsingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.btnGetInfo.setOnClickListener {
-            viewModel.getDataFromApi()
-            Log.d("msg_api", "${viewModel.response}")
+        getData()
+    }
+
+    private fun getData() {
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            binding.btnGetInfo.setOnClickListener {
+                viewModel.getDataFromApi()
+                Log.d("msg_api", "${viewModel.response}")
+            }
         }
     }
 

@@ -8,7 +8,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.parsingdataandretrofit.molel.Product
 import com.example.parsingdataandretrofit.remote.RetrofitInstance
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.Dispatcher
 
 class ParsingViewModel : ViewModel() {
 
@@ -17,7 +19,7 @@ class ParsingViewModel : ViewModel() {
 
     fun getDataFromApi() {
         val apiData = RetrofitInstance.retrofitBuilder
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = apiData.getData()
             if (response.isSuccessful) {
                 _response.value = response.body()
